@@ -1,0 +1,15 @@
+.grid__like {
+    width: 22px;
+    height: 19px;
+    background-image: url(../../../images/Group.svg);
+    border: none;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    padding: 0;
+    margin-bottom: 8px;
+}
+
+.grid__like:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}

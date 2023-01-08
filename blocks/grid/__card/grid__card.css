@@ -1,0 +1,7 @@
+.grid__card {
+    background-color: white;
+    color: #000;
+    max-width: 282px;
+    border-radius: 10px;
+    height: 361px;
+}
