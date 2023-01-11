@@ -3,8 +3,11 @@
     font-size: 18px;
     line-height: 22px;
     margin: 0;
-    margin-top: 16px;
+    margin-top: 10px;
     min-width: 336px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 @media (max-width: 690px) {

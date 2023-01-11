@@ -6,7 +6,7 @@
     width: 24px;
     height: 24px;
     background-image: url(../../../images/Edit_Button.svg);
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 .profile__open:hover {
@@ -24,6 +24,5 @@
     .profile__open {
         width: 18px;
         height: 18px;
-        margin-top: 5px;
     }
 }
