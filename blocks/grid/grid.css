@@ -16,7 +16,6 @@
  @media (max-width: 600px) {
     .grid {
         grid-template-columns: 282px;
-        margin: 36px 19px 0;
         column-gap: 0;
         margin: 36px 19px 0;
     }

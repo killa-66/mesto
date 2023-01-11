@@ -1,11 +1,9 @@
 .profile__add {
     background: none;
-    border: none;
     padding: 0;
     width: 150px;
     height: 50px;
     background-image: url(../../../images/Plus.svg);
-    border-radius: 2px;
     margin: auto 0 auto 244px;
     background-repeat: no-repeat;
     background-position: center;
