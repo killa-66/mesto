@@ -1,4 +1,4 @@
-.grid__like_disabled
+.grid__like
  {
     width: 22px;
     height: 19px;
@@ -10,7 +10,7 @@
     margin-bottom: 8px;
 }
 
-.grid__like_disabled:hover {
+.grid__like:hover {
     opacity: 0.5;
     cursor: pointer;
 }

@@ -14,7 +14,7 @@
 @import url(../blocks/grid/grid.css);
 @import url(../blocks/grid/__card/grid__card.css);
 @import url(../blocks/grid/__image/grid__image.css);
-@import url(../blocks/grid/__like/_disabled/grid__like_disabled.css);
+@import url(../blocks/grid/__like/grid__like.css);
 @import url(../blocks/grid/__like/_active/grid__like_active.css);
 @import url(../blocks/grid/__signature/grid__signature.css);
 @import url(../blocks/grid/__name/grid__name.css);
