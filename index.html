@@ -28,51 +28,66 @@
                     <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Каменная церковь" class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Карачаевск</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
                 <div class="grid__card">
-                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Солнце садится за гору" class="grid__image">
+                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Солнце садится за гору"
+                        class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Гора Эльбрус</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
                 <div class="grid__card">
                     <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Лес и горы" class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Домбай</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
                 <div class="grid__card">
-                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Солнце садится за гору" class="grid__image">
+                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Солнце садится за гору"
+                        class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Гора Эльбрус</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
                 <div class="grid__card">
                     <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Лес и горы" class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Домбай</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
                 <div class="grid__card">
                     <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Каменная церковь" class="grid__image">
                     <div class="grid__signature">
                         <h2 class="grid__name">Карачаево-Черкессия</h2>
-                        <button type="button" class="grid__like"></button>
+                        <button type="button" class="grid__like_disabled"></button>
                     </div>
                 </div>
-
             </section>
+
         </main>
         <footer class="footer">
-            <p class="footer__copyright">&#169;2022 Mesto Russia. Ярослав М.</p>
+            <p class="footer__copyright">&#169; 2022 Mesto Russia.</p>
         </footer>
+        <section class="popup">
+            <div class="popup__container">
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form name="popup__form" class="form">
+                    <input type="text" placeholder="Ваше Имя" value="" class="popup__name">
+                    <input type="text" placeholder="Ваша профессия" value=""
+                        class="popup__profession">
+                    <button class="popup__save">Сохранить</button>
+                </form>
+            </div>
+            <button type="button" class="popup__close"></button>
+        </section>
     </div>
+    <script src="./script/script.js"></script>
 </body>
 
 </html>

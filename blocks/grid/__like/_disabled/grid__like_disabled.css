@@ -1,7 +1,8 @@
-.grid__like {
+.grid__like_disabled
+ {
     width: 22px;
     height: 19px;
-    background-image: url(../../../images/Group.svg);
+    background-image: url(../../../../images/Group.svg);
     border: none;
     background-repeat: no-repeat;
     background-color: #fff;
@@ -9,7 +10,7 @@
     margin-bottom: 8px;
 }
 
-.grid__like:hover {
+.grid__like_disabled:hover {
     opacity: 0.5;
     cursor: pointer;
 }
