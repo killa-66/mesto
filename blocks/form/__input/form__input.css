@@ -1,22 +1,26 @@
-.popup__profession {
+.form__input {
     margin: 0;
-    margin-bottom: 48px;
+    margin-bottom: 30px;
+    padding-bottom: 8px;
     width: 358px;
-    height: 27px;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-
     color: #000000;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.form__input:nth-last-of-type(1) {
+    margin-bottom: 48px;
+}
+
 @media (max-width: 600px) {
-    .popup__profession {
-        margin: 0 22px 45px;
+    .form__input {
         width: 238px;
-        font-size: 14px;
-        line-height: 17px;
+    }
+    .form__input:nth-last-of-type(1) {
+        margin-bottom: 45px;
     }
 }
+

@@ -2,7 +2,7 @@
     background: none;
     padding: 0;
     width: 150px;
-    height: 50px;
+    padding: 25px;
     background-image: url(../../../images/Plus.svg);
     margin: auto 0 auto 244px;
     background-repeat: no-repeat;
@@ -26,7 +26,6 @@
     .profile__add {
         margin: 36px auto 0;
         width: 282px;
-        height: 50px;
     }
 }
 
@@ -34,5 +33,6 @@
     .profile__add {
         margin-top: 33px;
         background-size: 15px;
+        padding: 23px;
     }
 }

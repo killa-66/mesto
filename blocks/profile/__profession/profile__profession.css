@@ -13,7 +13,6 @@
 @media (max-width: 690px) {
     .profile__profession {
         margin-top: 14px;
-        font-weight: 400;
         font-size: 14px;
         line-height: 17px;
         text-align: center;

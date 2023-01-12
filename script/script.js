@@ -1,41 +1,41 @@
 let profile = document.querySelector('.profile'),
     popup = document.querySelector('.popup'),
-    popupOpened = document.querySelector('.popup__opened'),
     popupOpen = profile.querySelector('.profile__open'),
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
-    popupContainer = popup.querySelector('.popup__container'),
-    popupTitle = popupContainer.querySelector('.popup__title'),
-    popupName = popupContainer.querySelector('.popup__name'),
-    popupProfession = popupContainer.querySelector('.popup__profession'),
-    popupSave = popupContainer.querySelector('.popup__save'),
-    Popupform = popupContainer.querySelector('.form');
+    popupForm = popup.querySelector('.form'),
+    popupName = document.getElementById('name'),
+    popupProfession = document.getElementById('job'),
     popupClose = popup.querySelector('.popup__close');
 
+console.log(popupForm);
+
+// Функция открытия попап'а, перед открытием данные из фомы подгружаем в попап (мало ли у кого-то очень слабый компьютер)
 function openPoup() {
-    popup.classList.add('popup__opened');
-}
-
-function closePopup() {
-    popup.classList.remove('popup__opened');
-}
-
-document.addEventListener("DOMContentLoaded", function () { 
-    function inputValue () {
-        popupName.value = profileName.innerHTML;
-        popupProfession.value = profileProfession.innerHTML;
-    }
     inputValue();
-  });
+    popup.classList.add('popup_opened');
+}
 
-function handleFormSubmit (event) {
+// Функция закрытия попап'а
+function closePopup() {
+    popup.classList.remove('popup_opened');
+}
+
+// Передача данных из профиля в попап
+function inputValue() {
+    popupName.value = profileName.textContent;
+    popupProfession.value = profileProfession.textContent;
+}
+
+// Сохранение данных из заполненного попап'а
+function handleFormSubmit(event) {
     event.preventDefault();
-    profileName.innerHTML = popupName.value;
-    profileProfession.innerHTML = popupProfession.value;
+    profileName.textContent = popupName.value;
+    profileProfession.textContent = popupProfession.value;
     closePopup();
 }
 
 
 popupOpen.addEventListener('click', openPoup);
 popupClose.addEventListener('click', closePopup);
-Popupform.addEventListener('submit', handleFormSubmit);
+popupForm.addEventListener('submit', handleFormSubmit);
