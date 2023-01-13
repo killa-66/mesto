@@ -10,7 +10,7 @@ let profile = document.querySelector('.profile'),
 
 console.log(popupForm);
 
-// Функция открытия попап'а, перед открытием данные из фомы подгружаем в попап (мало ли у кого-то очень слабый компьютер)
+// Функция открытия попап'а, перед открытием данные из фромы подгружаем в попап (мало ли у кого-то очень слабый компьютер)
 function openPoup() {
     inputValue();
     popup.classList.add('popup_opened');
