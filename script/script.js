@@ -1,5 +1,6 @@
-let profile = document.querySelector('.profile'),
+const profile = document.querySelector('.profile'),
     popup = document.querySelector('.popup'),
+    gridCard = document.querySelector('.grid__card'),
     popupOpen = profile.querySelector('.profile__open'),
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
@@ -9,6 +10,53 @@ let profile = document.querySelector('.profile'),
     popupClose = popup.querySelector('.popup__close');
 
 console.log(popupForm);
+
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     function initializationCards(initialCards) {
+//         const gridCard = document.querySelector('.grid__card');
+//         const gridTemplate = document.querySelector('#grid-template').content;
+//         const gridElement = gridTemplate.querySelector('.grid__card').cloneNode(true);
+    
+//         for (let i = 0; i < initialCards.length; i++) {
+//             gridElement.querySelector('.grid__name').textContent = initialCards[i].name;
+//             gridElement.querySelector('.grid__image').src = initialCards[i].link;
+    
+    
+//         }
+//         gridCard.append(gridElement);
+//     }
+//     initializationCards(initialCards);
+// })
+
+
 
 // Функция открытия попап'а, перед открытием данные из фромы подгружаем в попап (мало ли у кого-то очень слабый компьютер)
 function openPoup() {
