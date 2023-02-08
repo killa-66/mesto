@@ -15,7 +15,6 @@ const profile = document.querySelector('.profile'),
     
     popupPhotoCard = document.getElementById('popupPhotoCard'),
     popupClosePhoto = popupPhotoCard.querySelector('.popup__close'),
-    // popupOpenPhoto = document.querySelectorAll('.popup__image'),
 
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
@@ -121,7 +120,7 @@ function handleClickDelete(evt) {
 
 // Функция открытия попапа и передача значений в него 
 function OpenPhotoPopup(cardName, cardImg) {
-    cardPhoto = document.querySelector('.popup__shadow');
+    cardPhoto = document.querySelector('.popup_shadow');
     cardPhoto.querySelector('.popup__image').src = cardImg;
     cardPhoto.querySelector('.popup__name').textContent = cardName;
     
