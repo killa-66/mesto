@@ -28,3 +28,8 @@
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__save/form__save.css);
+@import url(../blocks/grid/__trash/grid__trash.css);
+@import url(../blocks/popup/__container/_image/popup__container_image.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/__name/popup__name.css);
+@import url(../blocks/popup/__shadow/popup__shadow.css);

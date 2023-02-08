@@ -1,15 +1,28 @@
 const profile = document.querySelector('.profile'),
-    popup = document.querySelector('.popup'),
-    gridCard = document.querySelector('.grid__card'),
-    popupOpen = profile.querySelector('.profile__open'),
-    profileName = profile.querySelector('.profile__name'),
-    profileProfession = profile.querySelector('.profile__profession'),
-    popupForm = popup.querySelector('.form'),
+
+    popupEditProfile = document.getElementById('popupEditProfile'),
     popupName = document.getElementById('name'),
     popupProfession = document.getElementById('job'),
-    popupClose = popup.querySelector('.popup__close');
+    popupProfileOpen = profile.querySelector('.profile__open'),
 
-console.log(popupForm);
+    popupAddCard = document.getElementById('popupAddCard'),
+    popupNameCard = document.getElementById('nameCard'),
+    popupImageCard = document.getElementById('imageCard'),
+    popupOpenProfileAdd = document.querySelector('.profile__add'),
+    popupSubmitCard = popupAddCard.querySelector('.form'),
+
+    gridSection = document.querySelector('.grid'),
+    
+    popupPhotoCard = document.getElementById('popupPhotoCard'),
+    popupClosePhoto = popupPhotoCard.querySelector('.popup__close'),
+    // popupOpenPhoto = document.querySelectorAll('.popup__image'),
+
+    profileName = profile.querySelector('.profile__name'),
+    profileProfession = profile.querySelector('.profile__profession'),
+    popupForm = popupEditProfile.querySelector('.form'),
+    popupCloseEdit = popupEditProfile.querySelector('.popup__close'),
+    popupCloseAdd = popupAddCard.querySelector('.popup__close');
+
 
 const initialCards = [
     {
@@ -39,51 +52,103 @@ const initialCards = [
 ];
 
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     function initializationCards(initialCards) {
-//         const gridCard = document.querySelector('.grid__card');
-//         const gridTemplate = document.querySelector('#grid-template').content;
-//         const gridElement = gridTemplate.querySelector('.grid__card').cloneNode(true);
-    
-//         for (let i = 0; i < initialCards.length; i++) {
-//             gridElement.querySelector('.grid__name').textContent = initialCards[i].name;
-//             gridElement.querySelector('.grid__image').src = initialCards[i].link;
-    
-    
-//         }
-//         gridCard.append(gridElement);
-//     }
-//     initializationCards(initialCards);
-// })
 
+const gridTemplate = document.querySelector('#grid-template').content;
 
+// Инициализация карточек
+initialCards.forEach(function (item) {
+    appendCard(gridSection, addNewCard(item.name, item.link));
+});
 
-// Функция открытия попап'а, перед открытием данные из фромы подгружаем в попап (мало ли у кого-то очень слабый компьютер)
-function openPoup() {
-    inputValue();
-    popup.classList.add('popup_opened');
+// Функция добавления новых картинок в грид-секцию
+function appendCard(gridSectionLocal, cardName) {
+    gridSectionLocal.append(cardName);
 }
 
-// Функция закрытия попап'а
-function closePopup() {
-    popup.classList.remove('popup_opened');
+// Функция создания новой карточки  
+function addNewCard(cardName, cardImg) {
+    const gridCard = gridTemplate.querySelector('.grid__card').cloneNode(true);
+    gridCard.querySelector('.grid__name').textContent = cardName;
+    gridCard.querySelector('.grid__image').src = cardImg;
+    gridCard.querySelector('.grid__like').addEventListener('click', handleClickLike); //Добавление слушателя на кнопку лайка 
+    gridCard.querySelector('.grid__trash').addEventListener('click', handleClickDelete); //Добавление слушателя на кнопку удаления
+    gridCard.querySelector('.grid__image').addEventListener('click', function() {
+        OpenPhotoPopup(cardName, cardImg);
+        openPoup(cardPhoto);
+    }); //Добавление слушателя на картинку
+    return gridCard
 }
 
-// Передача данных из профиля в попап
-function inputValue() {
-    popupName.value = profileName.textContent;
-    popupProfession.value = profileProfession.textContent;
+// Функция открытия попап'а
+function openPoup(popupOpen) {
+    popupOpen.classList.add('popup_opened');
 }
 
-// Сохранение данных из заполненного попап'а
-function handleFormSubmit(event) {
-    event.preventDefault();
+// Функция закрытия попап'а данных профиля
+function closePopup(popupClose) {
+    popupClose.classList.remove('popup_opened');
+}
+
+// Сохранение данных из заполненного попап'а профиля
+function handleFormSubmit(evt) {
+    evt.preventDefault();
     profileName.textContent = popupName.value;
     profileProfession.textContent = popupProfession.value;
-    closePopup();
+    closePopup(popupEditProfile);
 }
 
+// Сохранение данных из попапа создания новой карточки
+function handleSubmitNewCard(evt) {
+    evt.preventDefault();
+    gridSection.prepend(addNewCard(popupNameCard.value, popupImageCard.value));
+    closePopup(popupAddCard);
+    popupNameCard.value = '';
+    popupImageCard.value = '';
+}
 
-popupOpen.addEventListener('click', openPoup);
-popupClose.addEventListener('click', closePopup);
+//Функция добавления лайка
+function handleClickLike(evt) {
+    evt.target.classList.toggle('grid__like_active');
+};
+
+function handleClickDelete(evt) {
+    const btn = evt.target.closest('.grid__trash');
+    if (!btn) {
+        return
+    }
+    btn.closest('.grid__card').remove();
+}
+
+// Функция открытия попапа и передача значений в него 
+function OpenPhotoPopup(cardName, cardImg) {
+    cardPhoto = document.querySelector('.popup__shadow');
+    cardPhoto.querySelector('.popup__image').src = cardImg;
+    cardPhoto.querySelector('.popup__name').textContent = cardName;
+    
+}
+
+// Слушатели событий на редактирование профиля
+popupProfileOpen.addEventListener('click', () => {
+    openPoup(popupEditProfile)
+    popupName.value = profileName.textContent;
+    popupProfession.value = profileProfession.textContent;
+});
+popupCloseEdit.addEventListener('click', () => {
+    closePopup(popupEditProfile)
+});
 popupForm.addEventListener('submit', handleFormSubmit);
+
+// Слушатели событий на добавление новых карточек
+popupOpenProfileAdd.addEventListener('click', () => {
+    openPoup(popupAddCard)
+});
+popupCloseAdd.addEventListener('click', () => {
+    closePopup(popupAddCard)
+});
+popupSubmitCard.addEventListener('submit', handleSubmitNewCard);
+
+// Слушатели событий на фото-карточку
+popupClosePhoto.addEventListener('click', () => {
+    closePopup(popupPhotoCard)
+});
+

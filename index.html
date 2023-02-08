@@ -25,13 +25,14 @@
                 <button type="button" aria-label="Добавить" class="profile__add"></button>
             </section>
             <section class="grid">
-                <div class="grid__card">
+                <!-- <div class="grid__card">
                     <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Каменная церковь" class="grid__image">
+                    <button type="button" aria-label="Удалить" class="grid__trash"></button>
                     <div class="grid__signature">
                         <h2 class="grid__name">Карачаевск</h2>
                         <button type="button" aria-label="Нравится" class="grid__like"></button>
-                    </div>
-                </div>
+                </div>  -->
+                <!-- </div>
                 <div class="grid__card">
                     <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Солнце садится за гору" class="grid__image">
                     <div class="grid__signature">
@@ -66,14 +67,14 @@
                         <h2 class="grid__name">Карачаево-Черкессия</h2>
                         <button type="button" aria-label="Нравится" class="grid__like"></button>
                     </div>
-                </div>
+                </div> -->
             </section>
 
         </main>
         <footer class="footer">
             <p class="footer__copyright">&#169; 2022 Mesto Russia</p>
         </footer>
-        <div class="popup">
+        <div class="popup" id="popupEditProfile">
             <div class="popup__container">
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form name="popup__form" class="form">
@@ -81,13 +82,32 @@
                     <input type="text" name="subtitle" placeholder="Ваша профессия" value="" class="form__input" id="job">
                     <button type="submit" aria-label="Сохранить" class="form__save">Сохранить</button>
                 </form>
+                <button type="button" aria-label="" class="popup__close"></button>
             </div>
-            <button type="button" aria-label="" class="popup__close"></button>
+        </div>
+        <div class="popup" id="popupAddCard">
+            <div class="popup__container">
+                <h2 class="popup__title">Новое место</h2>
+                <form name="popup__form" class="form">
+                    <input type="text"  name="nameOfCard" placeholder="Название" value="" class="form__input" id="nameCard">
+                    <input type="text" name="imageLink" placeholder="Ссылка на картинку" value="" class="form__input" id="imageCard">
+                    <button type="submit" aria-label="Создать" class="form__save">Создать</button>
+                </form>
+                <button type="button" aria-label="" class="popup__close"></button>
+            </div>
+        </div>
+        <div class="popup popup__shadow" id="popupPhotoCard">
+            <div class="popup__container popup__container_image">
+                <img src="" alt="" class="popup__image">
+                <p class="popup__name"></p>
+                <button type="button" aria-label="" class="popup__close"></button> 
+            </div>
         </div>
     </div>
-    <template id="grid-template" class="grid">
+    <template id="grid-template">
         <div class="grid__card">
             <img src="" alt="" class="grid__image">
+            <button type="button" aria-label="Удалить" class="grid__trash"></button>
             <div class="grid__signature">
                 <h2 class="grid__name"></h2>
                 <button type="button" aria-label="Нравится" class="grid__like"></button>
