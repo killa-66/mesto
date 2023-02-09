@@ -3,15 +3,16 @@ const profile = document.querySelector('.profile'),
     popupEditProfile = document.getElementById('popupEditProfile'),
     popupName = document.getElementById('name'),
     popupProfession = document.getElementById('job'),
-    popupProfileOpen = profile.querySelector('.profile__open'),
+    buttonOpenEditProfilePopup = profile.querySelector('.profile__open'),
 
     popupAddCard = document.getElementById('popupAddCard'),
     popupNameCard = document.getElementById('nameCard'),
     popupImageCard = document.getElementById('imageCard'),
-    popupOpenProfileAdd = document.querySelector('.profile__add'),
+    buttonOpenPopupAddCard = document.querySelector('.profile__add'),
     popupSubmitCard = popupAddCard.querySelector('.form'),
 
     gridSection = document.querySelector('.grid'),
+    
     
     cardPhoto = document.querySelector('.popup_shadow'),
     popupPhotoCard = document.getElementById('popupPhotoCard'),
@@ -21,9 +22,9 @@ const profile = document.querySelector('.profile'),
 
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
-    popupForm = popupEditProfile.querySelector('.form'),
-    popupButtonCloseEdit = popupEditProfile.querySelector('.popup__close'),
-    popupButtonCloseAdd = popupAddCard.querySelector('.popup__close');
+    formEditProfile = popupEditProfile.querySelector('.form'),
+    buttonCloseEditProfilePopup = popupEditProfile.querySelector('.popup__close'),
+    buttonClosePopupAddCard = popupAddCard.querySelector('.popup__close');
 
 const initialCards = [
     {
@@ -67,26 +68,27 @@ function appendCard(gridSectionLocal, cardName) {
 // Функция создания новой карточки  
 function addNewCard(cardName, cardImg) {
     const gridCard = gridTemplate.querySelector('.grid__card').cloneNode(true);
+    const gridImage = gridCard.querySelector('.grid__image');
     gridCard.querySelector('.grid__name').textContent = cardName;
-    gridCard.querySelector('.grid__image').src = cardImg;
-    gridCard.querySelector('.grid__image').alt = cardName;
+    gridImage.src = cardImg;
+    gridImage.alt = cardName;
     gridCard.querySelector('.grid__like').addEventListener('click', сlickLike); //Добавление слушателя на кнопку лайка 
     gridCard.querySelector('.grid__trash').addEventListener('click', deleteCard); //Добавление слушателя на кнопку удаления
-    gridCard.querySelector('.grid__image').addEventListener('click', function() {
+    gridImage.addEventListener('click', function() {
         openPhotoPopup(cardName, cardImg);
-        openPoup(cardPhoto);
+        openPopup(cardPhoto);
     }); //Добавление слушателя на картинку
     return gridCard
 }
 
 // Функция открытия попап'а
-function openPoup(popupOpen) {
-    popupOpen.classList.add('popup_opened');
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
 }
 
 // Функция закрытия попап'а данных профиля
-function closePopup(popupClose) {
-    popupClose.classList.remove('popup_opened');
+function closePopup(popup) {
+    popup.classList.remove('popup_opened');
 }
 
 // Сохранение данных из заполненного попап'а профиля
@@ -102,8 +104,7 @@ function submitNewCard(evt) {
     evt.preventDefault();
     gridSection.prepend(addNewCard(popupNameCard.value, popupImageCard.value));
     closePopup(popupAddCard);
-    popupNameCard.value = '';
-    popupImageCard.value = '';
+    popupSubmitCard.reset();
 }
 
 //Функция добавления лайка
@@ -127,24 +128,23 @@ function openPhotoPopup(cardName, cardImg) {
 }
 
 // Слушатели событий на редактирование профиля
-popupProfileOpen.addEventListener('click', () => {
-    openPoup(popupEditProfile)
+buttonOpenEditProfilePopup.addEventListener('click', () => {
+    openPopup(popupEditProfile)
     popupName.value = profileName.textContent;
     popupProfession.value = profileProfession.textContent;
 });
-popupButtonCloseEdit.addEventListener('click', () => {
+buttonCloseEditProfilePopup.addEventListener('click', () => {
     closePopup(popupEditProfile)
 });
-popupForm.addEventListener('submit', submitFormProfile);
+formEditProfile.addEventListener('submit', submitFormProfile);
 
 // Слушатели событий на добавление новых карточек
-popupOpenProfileAdd.addEventListener('click', () => {
-    openPoup(popupAddCard)
+buttonOpenPopupAddCard.addEventListener('click', () => {
+    openPopup(popupAddCard)
 });
-popupButtonCloseAdd.addEventListener('click', () => {
+buttonClosePopupAddCard.addEventListener('click', () => {
     closePopup(popupAddCard)
-    popupNameCard.value = '';
-    popupImageCard.value = '';
+    popupSubmitCard.reset();
 });
 popupSubmitCard.addEventListener('submit', submitNewCard);
 
