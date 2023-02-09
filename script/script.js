@@ -13,15 +13,17 @@ const profile = document.querySelector('.profile'),
 
     gridSection = document.querySelector('.grid'),
     
+    cardPhoto = document.querySelector('.popup_shadow'),
     popupPhotoCard = document.getElementById('popupPhotoCard'),
-    popupClosePhoto = popupPhotoCard.querySelector('.popup__close'),
+    popupButtonClosePhoto = popupPhotoCard.querySelector('.popup__close'),
+    poupCardImage = cardPhoto.querySelector('.popup__image'),
+    poupCardName = cardPhoto.querySelector('.popup__name'),
 
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
     popupForm = popupEditProfile.querySelector('.form'),
-    popupCloseEdit = popupEditProfile.querySelector('.popup__close'),
-    popupCloseAdd = popupAddCard.querySelector('.popup__close');
-
+    popupButtonCloseEdit = popupEditProfile.querySelector('.popup__close'),
+    popupButtonCloseAdd = popupAddCard.querySelector('.popup__close');
 
 const initialCards = [
     {
@@ -50,8 +52,6 @@ const initialCards = [
     }
 ];
 
-
-
 const gridTemplate = document.querySelector('#grid-template').content;
 
 // Инициализация карточек
@@ -69,10 +69,11 @@ function addNewCard(cardName, cardImg) {
     const gridCard = gridTemplate.querySelector('.grid__card').cloneNode(true);
     gridCard.querySelector('.grid__name').textContent = cardName;
     gridCard.querySelector('.grid__image').src = cardImg;
-    gridCard.querySelector('.grid__like').addEventListener('click', handleClickLike); //Добавление слушателя на кнопку лайка 
-    gridCard.querySelector('.grid__trash').addEventListener('click', handleClickDelete); //Добавление слушателя на кнопку удаления
+    gridCard.querySelector('.grid__image').alt = cardName;
+    gridCard.querySelector('.grid__like').addEventListener('click', сlickLike); //Добавление слушателя на кнопку лайка 
+    gridCard.querySelector('.grid__trash').addEventListener('click', deleteCard); //Добавление слушателя на кнопку удаления
     gridCard.querySelector('.grid__image').addEventListener('click', function() {
-        OpenPhotoPopup(cardName, cardImg);
+        openPhotoPopup(cardName, cardImg);
         openPoup(cardPhoto);
     }); //Добавление слушателя на картинку
     return gridCard
@@ -89,7 +90,7 @@ function closePopup(popupClose) {
 }
 
 // Сохранение данных из заполненного попап'а профиля
-function handleFormSubmit(evt) {
+function submitFormProfile(evt) {
     evt.preventDefault();
     profileName.textContent = popupName.value;
     profileProfession.textContent = popupProfession.value;
@@ -97,7 +98,7 @@ function handleFormSubmit(evt) {
 }
 
 // Сохранение данных из попапа создания новой карточки
-function handleSubmitNewCard(evt) {
+function submitNewCard(evt) {
     evt.preventDefault();
     gridSection.prepend(addNewCard(popupNameCard.value, popupImageCard.value));
     closePopup(popupAddCard);
@@ -106,11 +107,11 @@ function handleSubmitNewCard(evt) {
 }
 
 //Функция добавления лайка
-function handleClickLike(evt) {
+function сlickLike(evt) {
     evt.target.classList.toggle('grid__like_active');
 };
 
-function handleClickDelete(evt) {
+function deleteCard(evt) {
     const btn = evt.target.closest('.grid__trash');
     if (!btn) {
         return
@@ -119,11 +120,10 @@ function handleClickDelete(evt) {
 }
 
 // Функция открытия попапа и передача значений в него 
-function OpenPhotoPopup(cardName, cardImg) {
-    cardPhoto = document.querySelector('.popup_shadow');
-    cardPhoto.querySelector('.popup__image').src = cardImg;
-    cardPhoto.querySelector('.popup__name').textContent = cardName;
-    
+function openPhotoPopup(cardName, cardImg) {
+    poupCardImage.src = cardImg;
+    poupCardName.textContent = cardName;
+    poupCardImage.alt = cardName;
 }
 
 // Слушатели событий на редактирование профиля
@@ -132,22 +132,24 @@ popupProfileOpen.addEventListener('click', () => {
     popupName.value = profileName.textContent;
     popupProfession.value = profileProfession.textContent;
 });
-popupCloseEdit.addEventListener('click', () => {
+popupButtonCloseEdit.addEventListener('click', () => {
     closePopup(popupEditProfile)
 });
-popupForm.addEventListener('submit', handleFormSubmit);
+popupForm.addEventListener('submit', submitFormProfile);
 
 // Слушатели событий на добавление новых карточек
 popupOpenProfileAdd.addEventListener('click', () => {
     openPoup(popupAddCard)
 });
-popupCloseAdd.addEventListener('click', () => {
+popupButtonCloseAdd.addEventListener('click', () => {
     closePopup(popupAddCard)
+    popupNameCard.value = '';
+    popupImageCard.value = '';
 });
-popupSubmitCard.addEventListener('submit', handleSubmitNewCard);
+popupSubmitCard.addEventListener('submit', submitNewCard);
 
 // Слушатели событий на фото-карточку
-popupClosePhoto.addEventListener('click', () => {
+popupButtonClosePhoto.addEventListener('click', () => {
     closePopup(popupPhotoCard)
 });
 
