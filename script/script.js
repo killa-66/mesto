@@ -26,6 +26,7 @@ const profile = document.querySelector('.profile'),
     buttonCloseEditProfilePopup = popupEditProfile.querySelector('.popup__close'),
     buttonClosePopupAddCard = popupAddCard.querySelector('.popup__close');
 
+
 const initialCards = [
     {
         name: 'Архыз',
@@ -85,14 +86,14 @@ function addNewCard(cardName, cardImg) {
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', handlerClosePopupByEsc);
-    document.addEventListener('click', handlerClosePopupByClick);
+    document.addEventListener('mousedown', handlerClosePopupByClick);
 }
 
 // Функция закрытия попап'а данных профиля
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    document.addEventListener('keydown', handlerClosePopupByEsc);
-    document.addEventListener('click', handlerClosePopupByClick);
+    document.removeEventListener('keydown', handlerClosePopupByEsc);
+    document.removeEventListener('mousedown', handlerClosePopupByClick);
 }
 
 // Функция закрытия попапов на клавишу Esc
@@ -108,7 +109,7 @@ function handlerClosePopupByEsc(evt) {
 function handlerClosePopupByClick(evt) {
     if (evt.target.classList.contains('popup')) {
         closePopup(evt.target);
-        document.removeEventListener('click', handlerClosePopupByClick);
+        // document.removeEventListener('click', handlerClosePopupByClick);
     }
 };
 
@@ -126,6 +127,7 @@ function submitNewCard(evt) {
     gridSection.prepend(addNewCard(popupNameCard.value, popupImageCard.value));
     closePopup(popupAddCard);
     popupSubmitCard.reset();
+    blockButtonOpened(window.buttonElement, dataInput.inactiveButtonClass);
 }
 
 //Функция добавления лайка
@@ -135,9 +137,6 @@ function сlickLike(evt) {
 
 function deleteCard(evt) {
     const btn = evt.target.closest('.grid__trash');
-    if (!btn) {
-        return
-    }
     btn.closest('.grid__card').remove();
 }
 
@@ -161,11 +160,10 @@ formEditProfile.addEventListener('submit', submitFormProfile);
 
 // Слушатели событий на добавление новых карточек
 buttonOpenPopupAddCard.addEventListener('click', () => {
-    openPopup(popupAddCard)
+    openPopup(popupAddCard);
 });
 buttonClosePopupAddCard.addEventListener('click', () => {
     closePopup(popupAddCard)
-    popupSubmitCard.reset();
 });
 popupSubmitCard.addEventListener('submit', submitNewCard);
 

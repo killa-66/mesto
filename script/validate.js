@@ -1,7 +1,7 @@
 // включение валидации вызовом enableValidation
 // все настройки передаются при вызове
 
-const setInput = {
+const dataInput = {
   formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__save',
@@ -37,8 +37,8 @@ const checkInputValidity = (formElement, inputElement, errorClass) => {
 const setEventListeners = (formElement, inputSelector, submitButtonSelector,
    inactiveButtonClass, errorClass) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
-  const buttonElement = formElement.querySelector(submitButtonSelector);
-  toggleButtonState(inputList, buttonElement);
+  
+  toggleButtonState(inputList, buttonElement, inactiveButtonClass);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, errorClass);
@@ -48,14 +48,15 @@ const setEventListeners = (formElement, inputSelector, submitButtonSelector,
 };
 
 // обработка валидации формы
-const enableValidation = (setInput) => {
-  const formList = Array.from(document.querySelectorAll(setInput.formSelector));
+const enableValidation = (dataInput) => {
+  const formList = Array.from(document.querySelectorAll(dataInput.formSelector));
   formList.forEach((formElement) => {
+    window.buttonElement = formElement.querySelector(dataInput.submitButtonSelector);
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    setEventListeners(formElement, setInput.inputSelector, setInput.submitButtonSelector, 
-      setInput.inactiveButtonClass, setInput.errorClass);
+    setEventListeners(formElement, dataInput.inputSelector, dataInput.submitButtonSelector, 
+      dataInput.inactiveButtonClass, dataInput.errorClass);
   });
 };
 
@@ -78,7 +79,7 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
 // блокировка кнопки открытого попапа 
 const blockButtonOpened = (buttonElement, inactiveButtonClass) => {
   buttonElement.setAttribute('disabled', true); 
-  buttonElement.classList.add(inactiveButtonClass); 
+  buttonElement.classList.add(inactiveButtonClass);
 }
 
-enableValidation(setInput);
+enableValidation(dataInput);

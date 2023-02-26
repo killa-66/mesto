@@ -1,12 +1,10 @@
 .name-error {
-    position: absolute;
-    top: 140px;
-    left: 36px;
+    max-width: 362px;
+    margin-top: 3px;
 }
 
 @media (max-width: 600px) {
     .name-error {
-        top: 153px;
-        left: 22px;
+        max-width: 242px;
     }
 }

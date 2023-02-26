@@ -1,12 +1,10 @@
 .job-error {
-    position: absolute;
-    top: 197px;
-    left: 36px;
+    max-width: 362px;
+    margin-top: 3px;
 }
 
 @media (max-width: 600px) {
     .job-error {
-        top: 210px;
-        left: 22px;
+        max-width: 242px;
     }
 }
