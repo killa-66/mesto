@@ -12,8 +12,8 @@ const profile = document.querySelector('.profile'),
     popupSubmitCard = popupAddCard.querySelector('.form'),
 
     gridSection = document.querySelector('.grid'),
-    
-    
+
+
     cardPhoto = document.querySelector('.popup_shadow'),
     popupPhotoCard = document.getElementById('popupPhotoCard'),
     popupButtonClosePhoto = popupPhotoCard.querySelector('.popup__close'),
@@ -74,7 +74,7 @@ function addNewCard(cardName, cardImg) {
     gridImage.alt = cardName;
     gridCard.querySelector('.grid__like').addEventListener('click', сlickLike); //Добавление слушателя на кнопку лайка 
     gridCard.querySelector('.grid__trash').addEventListener('click', deleteCard); //Добавление слушателя на кнопку удаления
-    gridImage.addEventListener('click', function() {
+    gridImage.addEventListener('click', function () {
         openPhotoPopup(cardName, cardImg);
         openPopup(cardPhoto);
     }); //Добавление слушателя на картинку
@@ -84,12 +84,33 @@ function addNewCard(cardName, cardImg) {
 // Функция открытия попап'а
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', handlerClosePopupByEsc);
+    document.addEventListener('click', handlerClosePopupByClick);
 }
 
 // Функция закрытия попап'а данных профиля
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.addEventListener('keydown', handlerClosePopupByEsc);
+    document.addEventListener('click', handlerClosePopupByClick);
 }
+
+// Функция закрытия попапов на клавишу Esc
+function handlerClosePopupByEsc(evt) {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened')
+        closePopup(openedPopup)
+    }
+};
+
+
+// Функция закрытия попапов по клику оверлей
+function handlerClosePopupByClick(evt) {
+    if (evt.target.classList.contains('popup')) {
+        closePopup(evt.target);
+        document.removeEventListener('click', handlerClosePopupByClick);
+    }
+};
 
 // Сохранение данных из заполненного попап'а профиля
 function submitFormProfile(evt) {
@@ -152,4 +173,3 @@ popupSubmitCard.addEventListener('submit', submitNewCard);
 popupButtonClosePhoto.addEventListener('click', () => {
     closePopup(popupPhotoCard)
 });
-

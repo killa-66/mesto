@@ -1,0 +1,12 @@
+.imageCard-error {
+    position: absolute;
+    top: 197px;
+    left: 36px;
+}
+
+@media (max-width: 600px) {
+    .imageCard-error {
+        top: 210px;
+        left: 22px;
+    }
+}
