@@ -1,3 +1,7 @@
+import { Card } from './Card.js'
+import { closePopup, openPopup, openPhotoPopup } from './func.js'
+import {  FormValidator, dataInput } from './FormValidator.js'
+
 const profile = document.querySelector('.profile'),
 
     popupEditProfile = document.getElementById('popupEditProfile'),
@@ -54,63 +58,25 @@ const initialCards = [
     }
 ];
 
-const gridTemplate = document.querySelector('#grid-template').content;
+// const formArr = Array.from(document.querySelectorAll(dataInput.formSelector));
+const formProfile = new FormValidator(dataInput, formEditProfile);
+const formCards = new FormValidator(dataInput, popupSubmitCard);
 
+// const gridTemplate = document.querySelector('#grid-template').content;
+
+function createCard(data, cardSelector) {
+    const card = new Card(data, cardSelector);
+    formCards.blockButtonOpened();
+    return card.generateCard();
+  }
 // Инициализация карточек
-initialCards.forEach(function (item) {
-    appendCard(gridSection, addNewCard(item.name, item.link));
-});
+function renderElements() {
+    initialCards.forEach((item) => { 
+      const cardElement = createCard(item, '#grid-template'); 
+      gridSection.append(cardElement); 
+    }); 
+  } 
 
-// Функция добавления новых картинок в грид-секцию
-function appendCard(gridSectionLocal, cardName) {
-    gridSectionLocal.append(cardName);
-}
-
-// Функция создания новой карточки  
-function addNewCard(cardName, cardImg) {
-    const gridCard = gridTemplate.querySelector('.grid__card').cloneNode(true);
-    const gridImage = gridCard.querySelector('.grid__image');
-    gridCard.querySelector('.grid__name').textContent = cardName;
-    gridImage.src = cardImg;
-    gridImage.alt = cardName;
-    gridCard.querySelector('.grid__like').addEventListener('click', сlickLike); //Добавление слушателя на кнопку лайка 
-    gridCard.querySelector('.grid__trash').addEventListener('click', deleteCard); //Добавление слушателя на кнопку удаления
-    gridImage.addEventListener('click', function () {
-        openPhotoPopup(cardName, cardImg);
-        openPopup(cardPhoto);
-    }); //Добавление слушателя на картинку
-    return gridCard
-}
-
-// Функция открытия попап'а
-function openPopup(popup) {
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', handlerClosePopupByEsc);
-    document.addEventListener('mousedown', handlerClosePopupByClick);
-}
-
-// Функция закрытия попап'а данных профиля
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', handlerClosePopupByEsc);
-    document.removeEventListener('mousedown', handlerClosePopupByClick);
-}
-
-// Функция закрытия попапов на клавишу Esc
-function handlerClosePopupByEsc(evt) {
-    if (evt.key === 'Escape') {
-        const openedPopup = document.querySelector('.popup_opened')
-        closePopup(openedPopup)
-    }
-};
-
-
-// Функция закрытия попапов по клику оверлей
-function handlerClosePopupByClick(evt) {
-    if (evt.target.classList.contains('popup')) {
-        closePopup(evt.target);
-    }
-};
 
 // Сохранение данных из заполненного попап'а профиля
 function submitFormProfile(evt) {
@@ -123,27 +89,14 @@ function submitFormProfile(evt) {
 // Сохранение данных из попапа создания новой карточки
 function submitNewCard(evt) {
     evt.preventDefault();
-    gridSection.prepend(addNewCard(popupNameCard.value, popupImageCard.value));
+    const dataAdd = {
+        name: popupNameCard.value,
+        link: popupImageCard.value
+    }
+    gridSection.prepend(createCard(dataAdd, '#grid-template'));
     closePopup(popupAddCard);
     popupSubmitCard.reset();
-    blockButtonOpened(window.buttonElement, dataInput.inactiveButtonClass);
-}
-
-//Функция добавления лайка
-function сlickLike(evt) {
-    evt.target.classList.toggle('grid__like_active');
-};
-
-function deleteCard(evt) {
-    const btn = evt.target.closest('.grid__trash');
-    btn.closest('.grid__card').remove();
-}
-
-// Функция открытия попапа и передача значений в него 
-function openPhotoPopup(cardName, cardImg) {
-    poupCardImage.src = cardImg;
-    poupCardName.textContent = cardName;
-    poupCardImage.alt = cardName;
+    // formCards.blockButtonOpened();
 }
 
 // Слушатели событий на редактирование профиля
@@ -151,9 +104,10 @@ buttonOpenEditProfilePopup.addEventListener('click', () => {
     openPopup(popupEditProfile)
     popupName.value = profileName.textContent;
     popupProfession.value = profileProfession.textContent;
+    formProfile.resetError();
 });
 buttonCloseEditProfilePopup.addEventListener('click', () => {
-    closePopup(popupEditProfile)
+    closePopup(popupEditProfile);
 });
 formEditProfile.addEventListener('submit', submitFormProfile);
 
@@ -170,3 +124,7 @@ popupSubmitCard.addEventListener('submit', submitNewCard);
 popupButtonClosePhoto.addEventListener('click', () => {
     closePopup(popupPhotoCard)
 });
+
+renderElements();
+formProfile.enableValidation();
+formCards.enableValidation();
