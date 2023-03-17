@@ -1,8 +1,7 @@
 const cardPhoto = document.querySelector('.popup_shadow'),
-popupPhotoCard = document.getElementById('popupPhotoCard'),
-poupCardImage = cardPhoto.querySelector('.popup__image'),
-poupCardName = cardPhoto.querySelector('.popup__name');
-
+    popupPhotoCard = document.getElementById('popupPhotoCard'),
+    poupCardImage = cardPhoto.querySelector('.popup__image'),
+    poupCardName = cardPhoto.querySelector('.popup__name');
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
@@ -12,9 +11,11 @@ function openPopup(popup) {
 
 // Функция закрытия попап'а данных профиля
 function closePopup(popup) {
+    const form = document.getElementById('popupAddCard').querySelector('.form')
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', handlerClosePopupByEsc);
     document.removeEventListener('mousedown', handlerClosePopupByClick);
+    form.reset();
 }
 
 // Функция открытия попапа и передача значений в него 
@@ -27,11 +28,10 @@ function openPhotoPopup(cardName, cardImg) {
 // Функция закрытия попапов на клавишу Esc
 function handlerClosePopupByEsc(evt) {
     if (evt.key === 'Escape') {
-        const openedPopup = document.querySelector('.popup_opened')
-        closePopup(openedPopup)
+        const openedPopup = document.querySelector('.popup_opened');
+        closePopup(openedPopup);        
     }
 };
-
 
 // Функция закрытия попапов по клику оверлей
 function handlerClosePopupByClick(evt) {

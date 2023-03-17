@@ -1,4 +1,4 @@
-const dataInput = {
+const validationConfig = {
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__save',
@@ -8,13 +8,13 @@ const dataInput = {
   };
 
   class FormValidator {
-    constructor(dataInput, formInputSelector) {
-        this._formSelector = dataInput.formSelector;
-        this._inputSelector = dataInput.inputSelector;
-        this._submitButtonSelector = dataInput.submitButtonSelector;
-        this._inactiveButtonClass = dataInput.inactiveButtonClass;
-        this._inputErrorClass = dataInput.inputErrorClass;
-        this._errorClass = dataInput.errorClass;
+    constructor(validationConfig, formInputSelector) {
+        this._formSelector = validationConfig.formSelector;
+        this._inputSelector = validationConfig.inputSelector;
+        this._submitButtonSelector = validationConfig.submitButtonSelector;
+        this._inactiveButtonClass = validationConfig.inactiveButtonClass;
+        this._inputErrorClass = validationConfig.inputErrorClass;
+        this._errorClass = validationConfig.errorClass;
         this._form = formInputSelector;
         this._submitButton = this._form.closest(this._formSelector).querySelector(this._submitButtonSelector);
         this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
@@ -85,4 +85,4 @@ const dataInput = {
     }
   }
 
-  export {  FormValidator, dataInput }
+  export {  FormValidator, validationConfig }

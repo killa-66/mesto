@@ -1,6 +1,7 @@
+import { initialCards } from './constants.js';
 import { Card } from './Card.js'
-import { closePopup, openPopup, openPhotoPopup } from './func.js'
-import {  FormValidator, dataInput } from './FormValidator.js'
+import { closePopup, openPopup, openPhotoPopup } from './utils.js'
+import {  FormValidator, validationConfig } from './FormValidator.js'
 
 const profile = document.querySelector('.profile'),
 
@@ -21,8 +22,6 @@ const profile = document.querySelector('.profile'),
     cardPhoto = document.querySelector('.popup_shadow'),
     popupPhotoCard = document.getElementById('popupPhotoCard'),
     popupButtonClosePhoto = popupPhotoCard.querySelector('.popup__close'),
-    poupCardImage = cardPhoto.querySelector('.popup__image'),
-    poupCardName = cardPhoto.querySelector('.popup__name'),
 
     profileName = profile.querySelector('.profile__name'),
     profileProfession = profile.querySelector('.profile__profession'),
@@ -30,43 +29,12 @@ const profile = document.querySelector('.profile'),
     buttonCloseEditProfilePopup = popupEditProfile.querySelector('.popup__close'),
     buttonClosePopupAddCard = popupAddCard.querySelector('.popup__close');
 
-
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
-// const formArr = Array.from(document.querySelectorAll(dataInput.formSelector));
-const formProfile = new FormValidator(dataInput, formEditProfile);
-const formCards = new FormValidator(dataInput, popupSubmitCard);
-
-// const gridTemplate = document.querySelector('#grid-template').content;
+const validatorEditProfile = new FormValidator(validationConfig, formEditProfile);
+const validatorAddCard = new FormValidator(validationConfig, popupSubmitCard);
 
 function createCard(data, cardSelector) {
     const card = new Card(data, cardSelector);
-    formCards.blockButtonOpened();
+    validatorAddCard.blockButtonOpened();
     return card.generateCard();
   }
 // Инициализация карточек
@@ -76,7 +44,6 @@ function renderElements() {
       gridSection.append(cardElement); 
     }); 
   } 
-
 
 // Сохранение данных из заполненного попап'а профиля
 function submitFormProfile(evt) {
@@ -96,7 +63,6 @@ function submitNewCard(evt) {
     gridSection.prepend(createCard(dataAdd, '#grid-template'));
     closePopup(popupAddCard);
     popupSubmitCard.reset();
-    // formCards.blockButtonOpened();
 }
 
 // Слушатели событий на редактирование профиля
@@ -104,27 +70,33 @@ buttonOpenEditProfilePopup.addEventListener('click', () => {
     openPopup(popupEditProfile)
     popupName.value = profileName.textContent;
     popupProfession.value = profileProfession.textContent;
-    formProfile.resetError();
+    validatorEditProfile.resetError();
 });
+
 buttonCloseEditProfilePopup.addEventListener('click', () => {
     closePopup(popupEditProfile);
 });
+
 formEditProfile.addEventListener('submit', submitFormProfile);
 
 // Слушатели событий на добавление новых карточек
 buttonOpenPopupAddCard.addEventListener('click', () => {
     openPopup(popupAddCard);
+    validatorAddCard.resetError();
 });
+
 buttonClosePopupAddCard.addEventListener('click', () => {
-    closePopup(popupAddCard)
+    closePopup(popupAddCard);
+    popupSubmitCard.reset();
 });
+
 popupSubmitCard.addEventListener('submit', submitNewCard);
 
 // Слушатели событий на фото-карточку
 popupButtonClosePhoto.addEventListener('click', () => {
-    closePopup(popupPhotoCard)
+    closePopup(popupPhotoCard);
 });
 
 renderElements();
-formProfile.enableValidation();
-formCards.enableValidation();
+validatorEditProfile.enableValidation();
+validatorAddCard.enableValidation();
