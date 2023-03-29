@@ -35,18 +35,18 @@
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form name="popup__form" class="form" novalidate>
                     <div class="form__section">
-                        <input type="text" name="title" placeholder="Ваше Имя" value="" class="form__input" id="name"
+                        <input type="text" name="title" placeholder="Ваше Имя" class="form__input" id="name"
                             minlength="2" maxlength="40" required>
                         <span class="form__input-error name-error"></span>
                     </div>
                     <div class="form__section">
-                        <input type="text" name="subtitle" placeholder="Ваша профессия" value="" class="form__input"
+                        <input type="text" name="subtitle" placeholder="Ваша профессия" class="form__input"
                             id="job" minlength="2" maxlength="200" required>
                         <span class="form__input-error job-error"></span>
                     </div>
                     <button type="submit" aria-label="Сохранить" class="form__save">Сохранить</button>
                 </form>
-                <button type="button" aria-label="" class="popup__close"></button>
+                <button type="button" aria-label="Закрыть" class="popup__close"></button>
             </div>
         </div>
         <div class="popup" id="popupAddCard">
@@ -54,12 +54,12 @@
                 <h2 class="popup__title">Новое место</h2>
                 <form name="popup__form" class="form" novalidate>
                     <div class="form__section">
-                        <input type="text" name="name" placeholder="Название" value="" class="form__input"
+                        <input type="text" name="name" placeholder="Название" class="form__input"
                             id="nameCard" minlength="2" maxlength="30" required>
                         <span class="form__input-error nameCard-error"></span>
                     </div>
                     <div class="form__section">
-                        <input type="url" name="link" placeholder="Ссылка на картинку" value="" class="form__input"
+                        <input type="url" name="link" placeholder="Ссылка на картинку" class="form__input"
                             id="imageCard" required>
                         <span class="form__input-error imageCard-error"></span>
                     </div>
@@ -72,7 +72,7 @@
             <div class="popup__container popup__container_image">
                 <img src=" " alt="" class="popup__image">
                 <p class="popup__name"></p>
-                <button type="button" aria-label="" class="popup__close"></button>
+                <button type="button" aria-label="Закрыть" class="popup__close"></button>
             </div>
         </div>
     </div>
