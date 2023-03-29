@@ -1,6 +1,9 @@
-import { initialCards, profile, popupEditProfile, popupName, popupProfession,
+import './index.css'
+import {
+    initialCards, profile, popupEditProfile, popupName, popupProfession,
     buttonOpenEditProfilePopup, buttonOpenPopupAddCard, popupAddCard,
-    popupSubmitCard, formEditProfile} from '../constants/constants.js';
+    popupSubmitCard, formEditProfile
+} from '../constants/constants.js';
 import Card from '../components/Card.js'
 import { FormValidator, validationConfig } from '../components/FormValidator.js'
 import Section from '../components/Section.js'
@@ -18,17 +21,19 @@ const userInfo = new UserInfo({ selectorUserName: '.profile__name', selectorUser
 const cardList = new Section({
     data: initialCards,
     renderer: (item) => {
-        const cardItem = createCard(item, '#grid-template',
-            (evt) => {
-                popupImage.open(evt);
+        const cardItem = createCard(item, '#grid-template', {
+            handleCardClick: () => {
+                popupImage.open(item);
             }
-        )
+        })
         cardList.addItem(cardItem)
     }
 }, '.grid')
 
 function createCard(data, cardSelector, cb) {
-    const card = new Card(data, cardSelector, cb);
+    const card = new Card(data, cardSelector, (title, link) => {
+        cb.handleCardClick({ name: title, link: link });
+    });
     return card.generateCard();
 }
 
@@ -41,8 +46,20 @@ function submitFormProfile() {
     popupEdit.close();
 }
 
-function handleSubmitNewCard(prop) {
-    cardList.prependItem(createCard(prop, '#grid-template', (evt) => { popupImage.open(evt) }))
+function handleSubmitNewCard() {
+    const dataAdd = {
+        name: document.querySelector('#nameCard').value,
+        link: document.querySelector('#imageCard').value
+    };
+    console.log(dataAdd);
+
+    const cardaddElement = createCard(dataAdd, "#grid-template", {
+        handleCardClick: () => {
+            popupImage.open(dataAdd);
+        }
+    });
+    cardList.prependItem(cardaddElement);
+    popupAdd.close();
 }
 
 // Слушатели событий на редактирование профиля
@@ -54,14 +71,14 @@ buttonOpenEditProfilePopup.addEventListener('click', () => {
     popupName.value = username;
     popupProfession.value = userjob;
     popupEdit.open();
-    validatorEditProfile.resetError();
+    validatorEditProfile.resetErrors();
 });
 
 // Слушатели событий на добавление новых карточек
 buttonOpenPopupAddCard.addEventListener('click', () => {
     popupAdd.open();
     validatorAddCard.blockButtonOpened();
-    validatorAddCard.resetError();
+    validatorAddCard.resetErrors();
 });
 
 popupAdd.setEventListeners();

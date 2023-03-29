@@ -30,7 +30,7 @@ export default class Card {
     // метод для добавления новой карточки
     _addNewCard() {
         const gridCard = this._getTemplate().cloneNode(true);
-        const gridImage = gridCard.querySelector('.grid__image');
+        const gridImage = this._cardImage;
         gridCard.querySelector('.grid__name').textContent = this._title;
         gridImage.src = this._link;
         gridImage.alt = this._title;
@@ -42,8 +42,8 @@ export default class Card {
 
         this._element.querySelector('.grid__trash').addEventListener('click', this._deleteCard.bind(this));
 
-        this._element.querySelector('.grid__image').addEventListener('click', (evt) => {
-            this._handleClick(evt);
+        this._cardImage.addEventListener('click', () => {
+            this._handleClick(this._title, this._link);
         });
     }
 
