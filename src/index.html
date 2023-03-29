@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
     <title>Место</title>
-    <link rel="icon" href="./images/favicons/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="<%=require('../src/images/favicons/favicon.svg')%>" type="image/x-icon">
 </head>
 
 <body class="body">
     <div class="page">
         <header class="header">
-            <img src="./images/Vector.svg" alt="Логотип Место Россия" class="header__logo">
+            <img src="<%=require('../src/images/Vector.svg')%>" alt="Логотип Место Россия" class="header__logo">
         </header>
         <main class="content">
             <section class="profile">
-                <img src="./images/Avatar.svg" alt="Аватарка профиля" class="profile__avatar">
+                <img src="<%=require('../src/images/Avatar.svg')%>" alt="Аватарка профиля" class="profile__avatar">
                 <div class="profile__info">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
                     <button type="button" aria-label="Редактировать профиль" class="profile__open"></button>
@@ -54,12 +54,12 @@
                 <h2 class="popup__title">Новое место</h2>
                 <form name="popup__form" class="form" novalidate>
                     <div class="form__section">
-                        <input type="text" name="nameOfCard" placeholder="Название" value="" class="form__input"
+                        <input type="text" name="name" placeholder="Название" value="" class="form__input"
                             id="nameCard" minlength="2" maxlength="30" required>
                         <span class="form__input-error nameCard-error"></span>
                     </div>
                     <div class="form__section">
-                        <input type="url" name="imageLink" placeholder="Ссылка на картинку" value="" class="form__input"
+                        <input type="url" name="link" placeholder="Ссылка на картинку" value="" class="form__input"
                             id="imageCard" required>
                         <span class="form__input-error imageCard-error"></span>
                     </div>
@@ -86,11 +86,7 @@
             </div>
         </div>
     </template>
-    <!-- <script src="./script/validate.js" defer></script>
-     <script src="./script/script.js" defer></script>
-    <script src="./script/Card.js"></script>
-    <script src="./script/FormValidator.js"></script> -->
-    <script type="module" src="./script/index.js"></script>
+    <!-- <script type="module" src="../src/pages/index.js"></script> -->
 </body>
 
 </html>

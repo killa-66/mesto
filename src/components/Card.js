@@ -1,12 +1,11 @@
-import { openPopup, openPhotoPopup } from "./utils.js";
-
-export class Card {
-    constructor(data, cardSelector, element) {
+export default class Card {
+    constructor(data, cardSelector, handlerCardClick) {
         this._title = data.name;
         this._link = data.link;
         this._cardSelector = cardSelector;
         this._element = this._getTemplate();
-        this._gridImage = this._element.querySelector('.grid__image');
+        this._cardImage = this._element.querySelector('.grid__image');
+        this._handleClick = handlerCardClick;
     }
     // поиск нужного элемента в DOM
     _getTemplate() {
@@ -43,17 +42,16 @@ export class Card {
 
         this._element.querySelector('.grid__trash').addEventListener('click', this._deleteCard.bind(this));
 
-        this._element.querySelector('.grid__image').addEventListener('click', () => {
-            openPhotoPopup(this._title, this._link);
-            openPopup(popupPhotoCard);
+        this._element.querySelector('.grid__image').addEventListener('click', (evt) => {
+            this._handleClick(evt);
         });
     }
 
     // генерация карточки
     generateCard() {
         this._setEventListeners();
-        this._gridImage.src = this._link;
-        this._gridImage.alt = 'Фотокарточка';
+        this._cardImage.src = this._link;
+        this._cardImage.alt = this._title;
         this._element.querySelector('.grid__name').textContent = this._title;
         return this._element;
     }
