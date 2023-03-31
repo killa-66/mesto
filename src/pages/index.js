@@ -2,10 +2,10 @@ import './index.css'
 import {
     initialCards, profile, popupEditProfile, popupName, popupProfession,
     buttonOpenEditProfilePopup, buttonOpenPopupAddCard, popupAddCard,
-    popupSubmitCard, formEditProfile
+    popupSubmitCard, formEditProfile, validationConfig
 } from '../constants/constants.js';
 import Card from '../components/Card.js'
-import { FormValidator, validationConfig } from '../components/FormValidator.js'
+import { FormValidator } from '../components/FormValidator.js'
 import Section from '../components/Section.js'
 import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'

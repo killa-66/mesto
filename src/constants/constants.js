@@ -33,8 +33,17 @@ const popupAddCard = document.getElementById('popupAddCard');
 const buttonOpenPopupAddCard = document.querySelector('.profile__add');
 const popupSubmitCard = popupAddCard.querySelector('.form');
 const formEditProfile = popupEditProfile.querySelector('.form');
+const validationConfig = {
+    formSelector: '.form',
+    inputSelector: '.form__input',
+    submitButtonSelector: '.form__save',
+    inactiveButtonClass: 'form__save_inactive',
+    inputErrorClass: 'form__input-error',
+    errorClass: 'form__input-error_active'
+  };
+  
 
 export { initialCards, profile, popupEditProfile, popupName, popupProfession,
         buttonOpenEditProfilePopup, buttonOpenPopupAddCard, popupAddCard,
-        popupSubmitCard, formEditProfile
+        popupSubmitCard, formEditProfile, validationConfig
     }

@@ -1,12 +1,3 @@
-const validationConfig = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__save',
-  inactiveButtonClass: 'form__save_inactive',
-  inputErrorClass: 'form__input-error',
-  errorClass: 'form__input-error_active'
-};
-
 class FormValidator {
   constructor(validationConfig, formInputSelector) {
     this._formSelector = validationConfig.formSelector;
@@ -85,4 +76,4 @@ class FormValidator {
   }
 }
 
-export { FormValidator, validationConfig }
+export { FormValidator }
