@@ -61,7 +61,6 @@ function handleSubmitNewCard() {
     cardList.prependItem(cardaddElement);
     popupAdd.close();
 }
-
 // Слушатели событий на редактирование профиля
 buttonOpenEditProfilePopup.addEventListener('click', () => {
     const {
