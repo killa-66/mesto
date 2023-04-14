@@ -79,7 +79,6 @@ buttonOpenPopupAddCard.addEventListener('click', () => {
     validatorAddCard.blockButtonOpened();
     validatorAddCard.resetErrors();
 });
-
 popupAdd.setEventListeners();
 popupEdit.setEventListeners();
 popupImage.setEventListeners();
