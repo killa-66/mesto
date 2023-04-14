@@ -1,18 +1,27 @@
 export default class UserInfo {
-    constructor({ selectorUserName, selectorUserJob }) {
+    constructor({ selectorUserName, selectorUserJob, selectorUserAvatar }) {
         this._username = document.querySelector(selectorUserName);
         this._userjob = document.querySelector(selectorUserJob);
+        this._useravatar = document.querySelector(selectorUserAvatar);
     }
 
     getUserInfo() {
         return {
-            username: this._username.textContent,
-            userjob: this._userjob.textContent
+            name: this._username.textContent,
+            about: this._userjob.textContent
         }
     }
 
-    setUserInfo(inputValues) {
-        this._username.textContent = inputValues.username;
-        this._userjob.textContent = inputValues.userjob;
+    getUserId(id){
+        this.myId = id;
+    }
+
+    setUserInfo({ name, about }) {
+        this._username.textContent = name;
+        this._userjob.textContent = about;
+    }
+
+    setUserAvatar({ avatar }) {
+        this._useravatar.src = avatar;
     }
 }

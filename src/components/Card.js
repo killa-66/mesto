@@ -1,11 +1,19 @@
 export default class Card {
-    constructor(data, cardSelector, handlerCardClick) {
+    constructor(data, myID, cardSelector, { handleCardClick, handleDeleteCard, handleAddLike, handleRemoveLike }) {
+        this._data = data
         this._title = data.name;
         this._link = data.link;
         this._cardSelector = cardSelector;
         this._element = this._getTemplate();
         this._cardImage = this._element.querySelector('.grid__image');
-        this._handleClick = handlerCardClick;
+        this._handleCardClick = handleCardClick;
+        this._cardId = data._id;
+        this._myID = myID;
+        this._likes = data.likes
+        this._ownerId = data.owner ? data.owner._id : null;
+        this._handleDeleteCard = handleDeleteCard;
+        this._handleAddLike = handleAddLike;
+        this._handleRemoveLike = handleRemoveLike;
     }
     // поиск нужного элемента в DOM
     _getTemplate() {
@@ -15,18 +23,47 @@ export default class Card {
             .querySelector('.grid__card')
             .cloneNode(true);
         return gridCardElement;
-    }
 
-    // метод изменения кнопки лайка
-    _clickLike() {
+    }
+    clickLike() {
         this._element.querySelector('.grid__like').classList.toggle('grid__like_active');
     }
 
     // метод для удаления карточки 
-    _deleteCard() {
-        this._element.remove()
+    deleteItem() {
+        this._element.remove();
+        this._element = null;
     }
 
+    setLikeButton() {
+        this._element.querySelector('.grid__like').classList.add('grid__like_active');
+    }
+
+    deleteLikeButton() {
+        this._element.querySelector('.grid__like').classList.remove('grid__like_active');
+    }
+
+    setCountLike(count) {
+        this._element.querySelector('.grid__like_count').textContent = count;
+    }
+
+
+    _addLikeButton(evt) {
+        if(evt.target.classList.contains('grid__like_active')) {
+            this._handleRemoveLike(this._cardId);
+        } else {
+            this._handleAddLike(this._cardId)
+        }
+    }
+
+    _initialLike() {
+        const cardHasLike = this._likes.some((like) => {
+            return like._id === this._myID
+        })
+        if(cardHasLike) {
+            this.setLikeButton()
+        }
+    }
     // метод для добавления новой карточки
     _addNewCard() {
         const gridCard = this._getTemplate().cloneNode(true);
@@ -38,21 +75,30 @@ export default class Card {
 
     // метод добавления слушателей 
     _setEventListeners() {
-        this._element.querySelector('.grid__like').addEventListener('click', this._clickLike.bind(this));
+        this._element.querySelector('.grid__like').addEventListener('click', (evt) => {
+            this._addLikeButton(evt)
+        });
 
-        this._element.querySelector('.grid__trash').addEventListener('click', this._deleteCard.bind(this));
+        if(this._myID === this._ownerId) {
+            this._element.querySelector('.grid__trash').addEventListener('click', () => {
+                this._handleDeleteCard();
+            });
+        }
 
         this._cardImage.addEventListener('click', () => {
-            this._handleClick(this._title, this._link);
+            this._handleCardClick(this._title, this._link);
         });
     }
 
     // генерация карточки
     generateCard() {
+        this._data.owner._id !== this._myID ? this._element.querySelector('.grid__trash').style.display = 'none' : ''
         this._setEventListeners();
         this._cardImage.src = this._link;
         this._cardImage.alt = this._title;
+        this.setCountLike(this._likes.length);
         this._element.querySelector('.grid__name').textContent = this._title;
+        this._initialLike();
         return this._element;
     }
 }
