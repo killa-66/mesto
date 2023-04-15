@@ -4,9 +4,9 @@ class Api {
         this.headers = headers;
     }
 
-    setId(id) {
-        this.id = id;
-    }
+    // setId(id) {
+    //     this.id = id;
+    // }
     getInitialCards() {
         return fetch(this.baseUrl + '/cards', {
             method: 'GET',
@@ -50,8 +50,8 @@ class Api {
             })
     }
 
-    deleteCard(){
-        return fetch(`${this.baseUrl}/cards/${this.id}`, {
+    deleteCard(cardId){
+        return fetch(`${this.baseUrl}/cards/${cardId}`, {
             method: "DELETE",
             headers: this.headers,
         })
@@ -60,6 +60,10 @@ class Api {
                     return res.json();
                 }
                 return Promise.reject(`Error ${res.status}`)
+            })
+            .catch((error) => {
+                console.log("Network error:", error);
+                return Promise.reject("Failed to fetch");
             });
     }
 

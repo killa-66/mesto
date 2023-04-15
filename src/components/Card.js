@@ -1,5 +1,5 @@
 export default class Card {
-    constructor(data, myID, cardSelector, { handleCardClick, handleDeleteCard, handleAddLike, handleRemoveLike }) {
+    constructor(data, myId, cardSelector, { handleCardClick, handleDeleteCard, handleAddLike, handleRemoveLike }) {
         this._data = data
         this._title = data.name;
         this._link = data.link;
@@ -8,8 +8,8 @@ export default class Card {
         this._cardImage = this._element.querySelector('.grid__image');
         this._handleCardClick = handleCardClick;
         this._cardId = data._id;
-        this._myID = myID;
-        this._likes = data.likes
+        this._myID = myId;
+        this.likes = data.likes
         this._ownerId = data.owner ? data.owner._id : null;
         this._handleDeleteCard = handleDeleteCard;
         this._handleAddLike = handleAddLike;
@@ -25,16 +25,6 @@ export default class Card {
         return gridCardElement;
 
     }
-    clickLike() {
-        this._element.querySelector('.grid__like').classList.toggle('grid__like_active');
-    }
-
-    // метод для удаления карточки 
-    deleteItem() {
-        this._element.remove();
-        this._element = null;
-    }
-
     setLikeButton() {
         this._element.querySelector('.grid__like').classList.add('grid__like_active');
     }
@@ -50,14 +40,14 @@ export default class Card {
 
     _addLikeButton(evt) {
         if(evt.target.classList.contains('grid__like_active')) {
-            this._handleRemoveLike(this._cardId);
+            this._handleRemoveLike(this._cardId, this.likes);
         } else {
-            this._handleAddLike(this._cardId)
+            this._handleAddLike(this._cardId, this.likes)
         }
     }
 
     _initialLike() {
-        const cardHasLike = this._likes.some((like) => {
+        const cardHasLike = this.likes.some((like) => {
             return like._id === this._myID
         })
         if(cardHasLike) {
@@ -81,7 +71,7 @@ export default class Card {
 
         if(this._myID === this._ownerId) {
             this._element.querySelector('.grid__trash').addEventListener('click', () => {
-                this._handleDeleteCard();
+                this._handleDeleteCard(this._element, this._cardId);
             });
         }
 
@@ -96,7 +86,7 @@ export default class Card {
         this._setEventListeners();
         this._cardImage.src = this._link;
         this._cardImage.alt = this._title;
-        this.setCountLike(this._likes.length);
+        this.setCountLike(this.likes.length);
         this._element.querySelector('.grid__name').textContent = this._title;
         this._initialLike();
         return this._element;

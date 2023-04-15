@@ -16,62 +16,55 @@ import PopupDeleteCard from "../components/PopupDeleteCard";
 
 const validatorEditProfile = new FormValidator(validationConfig, formEditProfile);
 const validatorAddCard = new FormValidator(validationConfig, popupSubmitCard);
+const validatorEditAvatar = new FormValidator(validationConfig, formEditAvatar);
+
 const popupEdit = new PopupWithForm('#popupEditProfile', submitFormProfile);
 const popupAdd = new PopupWithForm('#popupAddCard', handleSubmitNewCard);
 const popupAvatar = new PopupWithForm('#popupEditAvatar', submitNewAvatar)
-const validatorEditAvatar = new FormValidator(validationConfig, formEditAvatar);
 const popupImage = new PopupWithImage('#popupPhotoCard');
 const userInfo = new UserInfo({ selectorUserName: '.profile__name', selectorUserJob: '.profile__profession', selectorUserAvatar: '.profile__avatar' });
 const popupDeleteCard = new PopupDeleteCard('#popupDeleteCard', handleSubmitDeleteCard);
 
-api.getUserInfo()
-    .then((res) => {
-        userInfo.setUserInfo(res)
-        userInfo.setUserAvatar(res)
-        userInfo.getUserId(res._id)
-    })
-
 const cardList = new Section(
-    (item) => {
-            const cardItem = createCard(item,
-                '.grid-template',
-                userInfo.myID);
-            cardList.addItem(cardItem)
-        }, '.grid')
-    
-api.getInitialCards()
-    .then((data) => {
-        cardList.renderItems(data);
+    (item) => { cardList.addItem(createCard(item))}, '.grid')
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([res, data]) => {
+        userInfo.setUserInfo(res)
+        cardList.renderItems(data)
     })
-    .catch((error) => {
-        console.log("Ошибка:", error);
-    });
-
-function createCard(data, cardSelector, myID) {
-    const card = new Card(data, userInfo.myId, cardSelector, {
+    .catch((err) => {
+        console.log(err)
+    })
+function createCard(res) {
+    const card = new Card(res, userInfo.userId, ".grid-template", {
         handleCardClick: () => {
-            popupImage.open({name: data.name, link: data.link})
+            popupImage.open({name: res.name, link: res.link})
         },
-        handleDeleteCard: () => {
-            popupDeleteCard.open(card);
-            api.setId(data._id)
-            popupDeleteCard.setCardDeletionCallback(() => card.deleteItem());
+        handleDeleteCard: (card, cardId) => {
+            popupDeleteCard.open(card, cardId);
         },
-        handleAddLike: (cardId) => {
+        handleAddLike: (cardId, counter) => {
             api.putLike(cardId)
-                .then(() => {
-                    card.setLikeButton()
-                    card._likes.push("")
-                    card.setCountLike(card._likes.length)
-                })
 
-        },
-        handleRemoveLike: (cardId) => {
-            api.deleteLike(cardId)
                 .then(() => {
+                    counter.length = counter.length + 1
+                    card.setLikeButton()
+                    card.setCountLike(card.likes.length)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        handleRemoveLike: (cardId, counter) => {
+            api.deleteLike(cardId)
+                .then((data) => {
+                    counter.length = counter.length - 1
                     card.deleteLikeButton()
-                    card._likes.pop("")
-                    card.setCountLike(card._likes.length)
+                    card.setCountLike(card.likes.length)
+                })
+                .catch((err) => {
+                    console.log(err)
                 })
         }
     });
@@ -80,55 +73,53 @@ function createCard(data, cardSelector, myID) {
 
 function handleSubmitDeleteCard() {
     isLoading(true);
-    api.deleteCard()
+    api.deleteCard(popupDeleteCard.cardId)
         .then(() => {
-            popupDeleteCard._card.deleteItem()
+            popupDeleteCard.card.remove()
+            isLoading(false, 'Сохранить')
+            popupDeleteCard.close();
         })
         .catch((err) => {
             console.log(err)
         })
-        .finally(() => {
-            isLoading(false, 'Сохранить')
-            popupDeleteCard.close();
-        })
-}
+        }
 // Сохранение данных из заполненного попап'а профиля
 function submitFormProfile(propUserInfo) {
     isLoading(true)
     api.patchUserInfo(propUserInfo)
         .then(res => {
-        })
-        .finally(() => {
-            userInfo.setUserInfo(propUserInfo)
+            userInfo.setUserInfo(res)
             isLoading(false, 'Сохранить')
             popupEdit.close();
+        })
+        .catch((err) => {
+            console.log(err)
         })
 }
 
 function submitNewAvatar(propUserInfo) {
     isLoading(true)
     api.patchAvatarInfo(propUserInfo)
-        .then(res => {
-            userInfo.setUserAvatar(propUserInfo)
-        })
-        .finally(() => {
+        .then((res) => {
+            userInfo.setUserInfo(res)
             isLoading(false, 'Сохранить')
             popupAvatar.close()
         })
+        .catch((err) => {
+            console.log(err)
+        })
 }
-
-function handleSubmitNewCard(propsCardInfo ) {
+function handleSubmitNewCard(propsCardInfo) {
     isLoading(true)
     api.postNewCard(propsCardInfo)
         .then(data => {
-            const cardAddElement = createCard(data, ".grid-template", userInfo.myId);
-            cardList.prependItem(cardAddElement);
+            cardList.prependItem(createCard(data))
+            isLoading(false, 'Создать')
             popupAdd.close();
         })
-        .finally(() => {
-            isLoading(false, 'Создать')
+        .catch((err) => {
+            console.log(err)
         })
-
 }
 
 function isLoading(loading, text) {
@@ -143,7 +134,6 @@ function isLoading(loading, text) {
         activeButton.textContent = text;
     }
 }
-
 // Слушатели событий на редактирование профиля
 buttonOpenEditProfilePopup.addEventListener('click', () => {
     const {

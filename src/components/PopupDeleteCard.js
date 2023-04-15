@@ -9,15 +9,12 @@ export default class PopupDeleteCard extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-        this._deleteButtom.addEventListener('mousedown', this._callback)
+        this._deleteButtom.addEventListener('mousedown',() => this._callback(this.cardId))
     }
 
-    setCardDeletionCallback(callback) {
-        this._cardDeletionCallback = callback;
-    }
-
-    open(card) {
-        this._card = card;
+    open(card, cardId) {
+        this.card = card;
+        this.cardId = cardId;
         super.open();
     }
 }
