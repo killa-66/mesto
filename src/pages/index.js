@@ -27,7 +27,6 @@ const popupDeleteCard = new PopupDeleteCard('#popupDeleteCard', handleSubmitDele
 
 const cardList = new Section(
     (item) => { cardList.addItem(createCard(item))}, '.grid')
-
 Promise.all([api.getUserInfo(), api.getInitialCards()])
     .then(([res, data]) => {
         userInfo.setUserInfo(res)
