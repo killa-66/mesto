@@ -35,6 +35,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     .catch((err) => {
         console.log(err)
     })
+
 function createCard(res) {
     const card = new Card(res, userInfo.userId, ".grid-template", {
         handleCardClick: () => {
