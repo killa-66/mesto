@@ -44,24 +44,19 @@ function createCard(res) {
         handleDeleteCard: (card, cardId) => {
             popupDeleteCard.open(card, cardId);
         },
-        handleAddLike: (cardId, counter) => {
-            api.putLike(cardId)
-
-                .then(() => {
-                    counter.length = counter.length + 1
-                    card.setLikeButton()
-                    card.setCountLike(card.likes.length)
+        handleAddLike: (card) => {
+            api.putLike(card.getCardId())
+                .then((res) => {
+                    card.handleToggleLike(res)
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         },
-        handleRemoveLike: (cardId, counter) => {
-            api.deleteLike(cardId)
-                .then((data) => {
-                    counter.length = counter.length - 1
-                    card.deleteLikeButton()
-                    card.setCountLike(card.likes.length)
+        handleRemoveLike: (card) => {
+            api.deleteLike(card.getCardId())
+                .then((res) => {
+                    card.handleToggleLike(res)
                 })
                 .catch((err) => {
                     console.log(err)

@@ -4,8 +4,6 @@ export default class Card {
         this._title = data.name;
         this._link = data.link;
         this._cardSelector = cardSelector;
-        this._element = this._getTemplate();
-        this._cardImage = this._element.querySelector('.grid__image');
         this._handleCardClick = handleCardClick;
         this._cardId = data._id;
         this._myID = myId;
@@ -14,44 +12,49 @@ export default class Card {
         this._handleDeleteCard = handleDeleteCard;
         this._handleAddLike = handleAddLike;
         this._handleRemoveLike = handleRemoveLike;
+
     }
     // поиск нужного элемента в DOM
     _getTemplate() {
-        const gridCardElement = document
+        this.gridCardElement = document
             .querySelector(this._cardSelector)
             .content
             .querySelector('.grid__card')
             .cloneNode(true);
-        return gridCardElement;
-
+        this._cardImage = this.gridCardElement.querySelector('.grid__image');
+        this._likeElement =  this.gridCardElement.querySelector('.grid__like')
+        this.likeCounter = this.gridCardElement.querySelector('.grid__like_count')
+        return this.gridCardElement;
     }
-    setLikeButton() {
-        this._element.querySelector('.grid__like').classList.add('grid__like_active');
+    generateCard() {
+        this._getTemplate()
+        this._data.owner._id !== this._myID ? this.gridCardElement.querySelector('.grid__trash').style.display = 'none' : ''
+        this._setEventListeners();
+        this._cardImage.src = this._link;
+        this._cardImage.alt = this._title;
+        this.gridCardElement.querySelector('.grid__name').textContent = this._title;
+        this._initialLike();
+        return this.gridCardElement;
+    }
+    getCardId() {
+        return this._cardId
     }
 
-    deleteLikeButton() {
-        this._element.querySelector('.grid__like').classList.remove('grid__like_active');
+    handleToggleLike(res) {
+        this._likeElement.classList.toggle('grid__like_active');
+        this.likeCounter.textContent = res.likes.length;
     }
-
-    setCountLike(count) {
-        this._element.querySelector('.grid__like_count').textContent = count;
-    }
-
-
-    _addLikeButton(evt) {
-        if(evt.target.classList.contains('grid__like_active')) {
-            this._handleRemoveLike(this._cardId, this.likes);
-        } else {
-            this._handleAddLike(this._cardId, this.likes)
-        }
+    toggleLike() {
+        !this._likeElement.classList.contains('grid__like_active') ? this._handleAddLike(this) : this._handleRemoveLike(this)
     }
 
     _initialLike() {
+        this.likeCounter.textContent = this.likes.length;
         const cardHasLike = this.likes.some((like) => {
             return like._id === this._myID
         })
         if(cardHasLike) {
-            this.setLikeButton()
+            this._likeElement.classList.add('grid__like_active')
         }
     }
     // метод для добавления новой карточки
@@ -65,13 +68,14 @@ export default class Card {
 
     // метод добавления слушателей 
     _setEventListeners() {
-        this._element.querySelector('.grid__like').addEventListener('click', (evt) => {
-            this._addLikeButton(evt)
+        this._likeElement.addEventListener('click', () => {
+            // this._addLikeButton(this)
+            this.toggleLike(this)
         });
 
         if(this._myID === this._ownerId) {
-            this._element.querySelector('.grid__trash').addEventListener('click', () => {
-                this._handleDeleteCard(this._element, this._cardId);
+            this.gridCardElement.querySelector('.grid__trash').addEventListener('click', () => {
+                this._handleDeleteCard(this.gridCardElement, this._cardId);
             });
         }
 
@@ -81,14 +85,5 @@ export default class Card {
     }
 
     // генерация карточки
-    generateCard() {
-        this._data.owner._id !== this._myID ? this._element.querySelector('.grid__trash').style.display = 'none' : ''
-        this._setEventListeners();
-        this._cardImage.src = this._link;
-        this._cardImage.alt = this._title;
-        this.setCountLike(this.likes.length);
-        this._element.querySelector('.grid__name').textContent = this._title;
-        this._initialLike();
-        return this._element;
-    }
+
 }

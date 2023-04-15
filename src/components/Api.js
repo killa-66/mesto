@@ -104,14 +104,26 @@ class Api {
         return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
             method: "PUT",
             headers: this.headers
-        });
+        })
+        .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Error ${res.status}`)
+            })
     }
 
     deleteLike(cardId) {
         return fetch((`${this.baseUrl}/cards/${cardId}/likes`), {
             method: "DELETE",
             headers: this.headers
-        });
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Error ${res.status}`)
+            })
     }
 }
 
