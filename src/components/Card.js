@@ -26,6 +26,10 @@ export default class Card {
         this.likeCounter = this.gridCardElement.querySelector('.grid__like_count')
         return this.gridCardElement;
     }
+
+    deleteCard() {
+        this.gridCardElement.remove();
+    }
     generateCard() {
         this._getTemplate()
         this._data.owner._id !== this._myID ? this.gridCardElement.querySelector('.grid__trash').style.display = 'none' : ''
@@ -34,6 +38,7 @@ export default class Card {
         this._cardImage.alt = this._title;
         this.gridCardElement.querySelector('.grid__name').textContent = this._title;
         this._initialLike();
+        this.gridCardElement.cardInstance = this;
         return this.gridCardElement;
     }
     getCardId() {

@@ -70,12 +70,14 @@ function handleSubmitDeleteCard() {
     isLoading(true);
     api.deleteCard(popupDeleteCard.cardId)
         .then(() => {
-            popupDeleteCard.card.remove()
-            isLoading(false, 'Сохранить')
-            popupDeleteCard.close();
+            popupDeleteCard.card.cardInstance.deleteCard()
         })
         .catch((err) => {
             console.log(err)
+        })
+        .finally(() => {
+            isLoading(false, 'Сохранить')
+            popupDeleteCard.close();
         })
         }
 // Сохранение данных из заполненного попап'а профиля
@@ -84,11 +86,13 @@ function submitFormProfile(propUserInfo) {
     api.patchUserInfo(propUserInfo)
         .then(res => {
             userInfo.setUserInfo(res)
-            isLoading(false, 'Сохранить')
-            popupEdit.close();
         })
         .catch((err) => {
             console.log(err)
+        })
+        .finally(() => {
+            isLoading(false, 'Сохранить')
+            popupEdit.close();
         })
 }
 
@@ -97,11 +101,13 @@ function submitNewAvatar(propUserInfo) {
     api.patchAvatarInfo(propUserInfo)
         .then((res) => {
             userInfo.setUserInfo(res)
-            isLoading(false, 'Сохранить')
-            popupAvatar.close()
         })
         .catch((err) => {
             console.log(err)
+        })
+        .finally(() => {
+            isLoading(false, 'Сохранить')
+            popupAvatar.close()
         })
 }
 function handleSubmitNewCard(propsCardInfo) {
@@ -109,11 +115,13 @@ function handleSubmitNewCard(propsCardInfo) {
     api.postNewCard(propsCardInfo)
         .then(data => {
             cardList.prependItem(createCard(data))
-            isLoading(false, 'Создать')
-            popupAdd.close();
         })
         .catch((err) => {
             console.log(err)
+        })
+        .finally(() => {
+            isLoading(false, 'Создать')
+            popupAdd.close();
         })
 }
 
