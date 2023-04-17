@@ -67,76 +67,65 @@ function createCard(res) {
 }
 
 function handleSubmitDeleteCard() {
-    isLoading(true);
+    popupDeleteCard.isLoading(true);
     api.deleteCard(popupDeleteCard.cardId)
         .then(() => {
             popupDeleteCard.card.cardInstance.deleteCard()
+            popupDeleteCard.close();
         })
         .catch((err) => {
             console.log(err)
         })
         .finally(() => {
-            isLoading(false, 'Сохранить')
-            popupDeleteCard.close();
+            popupDeleteCard.isLoading(false)
         })
-        }
+}
 // Сохранение данных из заполненного попап'а профиля
 function submitFormProfile(propUserInfo) {
-    isLoading(true)
+    popupEdit.isLoading(true)
     api.patchUserInfo(propUserInfo)
         .then(res => {
             userInfo.setUserInfo(res)
+            popupEdit.close();
         })
         .catch((err) => {
             console.log(err)
         })
         .finally(() => {
-            isLoading(false, 'Сохранить')
-            popupEdit.close();
+            popupEdit.isLoading(false)
         })
 }
 
 function submitNewAvatar(propUserInfo) {
-    isLoading(true)
+    popupAvatar.isLoading(true)
     api.patchAvatarInfo(propUserInfo)
         .then((res) => {
             userInfo.setUserInfo(res)
+            popupAvatar.close()
         })
         .catch((err) => {
             console.log(err)
         })
         .finally(() => {
-            isLoading(false, 'Сохранить')
-            popupAvatar.close()
+            popupAvatar.isLoading(false)
+
         })
 }
 function handleSubmitNewCard(propsCardInfo) {
-    isLoading(true)
+    popupAdd.isLoading(true)
     api.postNewCard(propsCardInfo)
         .then(data => {
             cardList.prependItem(createCard(data))
+            popupAdd.close();
         })
         .catch((err) => {
             console.log(err)
         })
         .finally(() => {
-            isLoading(false, 'Создать')
-            popupAdd.close();
+            popupAdd.isLoading(false)
         })
 }
 
-function isLoading(loading, text) {
-    const activePopup = document.querySelector(".popup_opened");
-    const activeButton = activePopup.querySelector(".form__save");
-    if (loading) {
-        activeButton.textContent = "Сохранение...";
-        activeButton.disabled = true;
-    }
-    else {
-        activeButton.disabled = false;
-        activeButton.textContent = text;
-    }
-}
 // Слушатели событий на редактирование профиля
 buttonOpenEditProfilePopup.addEventListener('click', () => {
     const {
